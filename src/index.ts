@@ -1,5 +1,8 @@
-function main() {
-  console.log("Hello, world!");
+import { readConfig } from "./config";
+
+async function main() {
+  const config = await readConfig()
+  console.log(config);
 }
 
 main();
