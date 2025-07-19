@@ -1,7 +1,7 @@
 import { readConfig, setUser } from "./config";
 
 async function main() {
-  await setUser("dmdz")
+  await setUser("dima")
   const config = await readConfig()
   console.log(config);
 }
