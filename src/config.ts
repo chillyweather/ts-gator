@@ -7,12 +7,8 @@ export type Config = {
   currentUserName: string
 }
 
-export function setUser(username: string) {
-  const newConfig: Config = {
-    dbUrl: "",
-    currentUserName: username
-  };
-  return JSON.stringify(newConfig)
+export async function setUser(username: string) {
+  await writeConfig(username)
 }
 
 export async function readConfig() {
@@ -33,16 +29,21 @@ function getConfigPath(): string {
   return homedir + "/.gatorconfig.json"
 }
 
-function writeConfig() {
-  //
+async function writeConfig(username: string) {
+  const config = await readConfig()
+  console.log(">>>>>", config)
+  if (config) {
+    config.currentUserName = username
+  }
 }
 
-function isConfig(obj: unknown): Config | undefined {
+function isConfig(obj: unknown) {
   if (
     typeof obj === 'object' &&
     obj !== null &&
-    'dbUrl' in obj &&
-    typeof (obj as any).dbUrl === 'string') {
-    return obj as Config
+    'db_url' in obj &&
+    typeof (obj as any).db_url === 'string') {
+    return obj as unknown as Config
   }
+  console.log("not config")
 }
