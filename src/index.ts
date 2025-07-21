@@ -6,4 +6,4 @@ async function main() {
   registerCommand(commandRegistry, "login", handlerLogin)
 }
 
-main();
+main(); 
