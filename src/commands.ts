@@ -26,5 +26,5 @@ export function runCommand(registry: CommandsRegistry, cmdName: string, ...args:
     console.log(`Command ${command} doesn't exist`)
     return
   }
-  command(cmdName)
+  command(cmdName, ...args)
 }

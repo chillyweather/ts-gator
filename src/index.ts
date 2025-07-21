@@ -6,7 +6,7 @@ async function main() {
   const commandRegistry: CommandsRegistry = {}
   registerCommand(commandRegistry, "login", handlerLogin)
 
-  commandLogin(argv)
+  commandLogin(commandRegistry, argv)
 }
 
 main(); 

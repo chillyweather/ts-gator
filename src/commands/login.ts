@@ -1,5 +1,6 @@
 import { CommandsRegistry } from "src/commands"
 import process from "node:process"
+import { runCommand } from "src/commands"
 
 export function commandLogin(commandRegistry: CommandsRegistry, argv: string[]) {
   const args = argv.slice(2)
@@ -10,5 +11,7 @@ export function commandLogin(commandRegistry: CommandsRegistry, argv: string[]) 
     console.log("Username is required")
     process.exit(1)
   }
-  console.log("good enough")
+  const commandName = args[0]
+  const userName = args[1]
+  runCommand(commandRegistry, commandName, userName)
 }
