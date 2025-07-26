@@ -1,8 +1,21 @@
 import { error } from "console";
 import { readConfig, setUser } from "./config";
 import { createUser, getUserByName, resetDB, getAllUsers } from "./lib/db/queries/users";
+import { fetchFeed } from "./rss/rss";
+import { XMLParser } from "fast-xml-parser";
 
 export type CommandHandler = (cmdName: string, ...args: string[]) => Promise<void>;
+
+export async function handleAggregate(cmdName: string, ...args: string[]) {
+  if (args.length === 0) {
+    throw error("Please, provide feed URL...")
+  }
+  const feedUrl = args[0]
+  const xmlFeed = await fetchFeed(feedUrl)
+
+  const parser = new XMLParser
+
+}
 
 export async function handlerLogin(cmdName: string, ...args: string[]) {
   if (args.length === 0) {

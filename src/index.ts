@@ -1,5 +1,5 @@
 import { argv } from "process";
-import { CommandsRegistry, handleResetDB, handlerLogin, handlerRegister, listUsers, registerCommand, runCommand } from "./commands";
+import { CommandsRegistry, handleAggregate, handleResetDB, handlerLogin, handlerRegister, listUsers, registerCommand, runCommand } from "./commands";
 
 async function main() {
   const commandRegistry: CommandsRegistry = {}
@@ -9,6 +9,7 @@ async function main() {
   )
   registerCommand(commandRegistry, "reset", handleResetDB)
   registerCommand(commandRegistry, "users", listUsers)
+  registerCommand(commandRegistry, "agg", handleAggregate)
 
   const args = argv.slice(2)
   if (args.length === 0) {
