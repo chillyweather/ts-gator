@@ -1,14 +1,14 @@
 import { error } from "console";
 import { setUser } from "./config";
 
-export type CommandHandler = (cmdName: string, ...args: string[]) => void;
+export type CommandHandler = (cmdName: string, ...args: string[]) => Promise<void>;
 
-export function handlerLogin(cmdName: string, ...args: string[]) {
+export async function handlerLogin(cmdName: string, ...args: string[]) {
   if (args.length === 0) {
     throw error("Please, provide username...")
   }
   const username = args[0]
-  setUser(username)
+  await setUser(username)
   console.log(`User ${username} set`)
 }
 
@@ -20,7 +20,7 @@ export function registerCommand(registry: CommandsRegistry, cmdName: string, han
   registry[cmdName] = handler
 }
 
-export function runCommand(registry: CommandsRegistry, cmdName: string, ...args: string[]) {
+export async function runCommand(registry: CommandsRegistry, cmdName: string, ...args: string[]) {
   const command = registry[cmdName]
   if (!command) {
     console.log(`Command ${command} doesn't exist`)

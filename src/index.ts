@@ -6,7 +6,8 @@ async function main() {
   const commandRegistry: CommandsRegistry = {}
   registerCommand(commandRegistry, "login", handlerLogin)
 
-  commandLogin(commandRegistry, argv)
+  await commandLogin(commandRegistry, argv)
+  process.exit(0)
 }
 
 main(); 

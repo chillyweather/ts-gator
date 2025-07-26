@@ -2,7 +2,7 @@ import { CommandsRegistry } from "src/commands"
 import process from "node:process"
 import { runCommand } from "src/commands"
 
-export function commandLogin(commandRegistry: CommandsRegistry, argv: string[]) {
+export async function commandLogin(commandRegistry: CommandsRegistry, argv: string[]) {
   const args = argv.slice(2)
   if (args.length === 0) {
     console.log("Not enough arguments provided")
@@ -13,5 +13,5 @@ export function commandLogin(commandRegistry: CommandsRegistry, argv: string[]) 
   }
   const commandName = args[0]
   const userName = args[1]
-  runCommand(commandRegistry, commandName, userName)
+  await runCommand(commandRegistry, commandName, userName)
 }
