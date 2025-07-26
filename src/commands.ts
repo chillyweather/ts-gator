@@ -3,18 +3,49 @@ import { readConfig, setUser } from "./config";
 import { createUser, getUserByName, resetDB, getAllUsers } from "./lib/db/queries/users";
 import { fetchFeed } from "./rss/rss";
 import { XMLParser } from "fast-xml-parser";
+import { RSSFeed, RSSItem } from "./types";
 
 export type CommandHandler = (cmdName: string, ...args: string[]) => Promise<void>;
 
 export async function handleAggregate(cmdName: string, ...args: string[]) {
-  if (args.length === 0) {
-    throw error("Please, provide feed URL...")
-  }
-  const feedUrl = args[0]
-  const xmlFeed = await fetchFeed(feedUrl)
+  // if (args.length === 0) {
+  //   throw error("Please, provide feed URL...")
+  // }
+  // const feedUrl = args[0]
+  const xmlFeed = await fetchFeed()
 
+  if (!xmlFeed) return
   const parser = new XMLParser
+  const parsedData = parser.parse(xmlFeed)
+  const channel = parsedData.rss.channel
+  if (!channel) {
+    return
+  }
+  const { title, link, description } = channel
+  if (!(title && link && description)) {
+    return
+  }
+  const items = Array.isArray(channel.item) ? channel.item : []
 
+  const rssFeed: RSSFeed = {
+    channel: {
+      title, link, description, item: []
+    }
+  }
+
+  for (const item of items) {
+    const { title, link, description, pubDate } = item;
+    if (!(title && link && description && pubDate)) {
+      return
+    }
+    const rssItem: RSSItem = {
+      title, link, description, pubDate
+    }
+
+    rssFeed.channel.item.push(rssItem)
+  }
+  console.log(JSON.stringify(rssFeed, null, 2))
+  // return rssFeed;
 }
 
 export async function handlerLogin(cmdName: string, ...args: string[]) {
